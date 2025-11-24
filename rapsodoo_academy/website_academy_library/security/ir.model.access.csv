@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_res_library_public,access_res_library_public,academy_library.model_res_library,base.group_public,1,0,0,0
+access_res_book_public,access_res_book_public,academy_library.model_res_book,base.group_public,1,0,0,0
+access_res_shelf_public,access_res_shelf_public,academy_library.model_res_shelf,base.group_public,1,0,0,0

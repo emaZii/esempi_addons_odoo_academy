@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="open_shelf" model="ir.actions.act_window">
+        <field name="name">Shelf</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.shelf</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('library_id', '=', active_id)]</field>
+    </record>
+
+    <record id="res_library_form_view" model="ir.ui.view">
+        <field name="name">res.library.view.form</field>
+        <field name="model">res.library</field>
+        <field name="arch" type="xml">
+            <form string="Library">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="action" name="%(open_shelf)d" string="Open Shelf" class="oe_stat_button" icon="fa-book" context="{'default_library_id': id}"/>
+                        <button type="object" name="open_link" string="Open Website" class="oe_stat_button" icon="fa-link"/>
+                    </div>
+
+                    <group>
+                        <field name="id" invisible="1"/>
+                        <field name="name"/>
+                        <field name="code"/>
+                    </group>
+                    <notebook>
+                        <page name="shelf_page" string="Shelves">
+                            <field name="shelf_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="res_library_tree_view" model="ir.ui.view">
+        <field name="name">res.library.view.tree</field>
+        <field name="model">res.library</field>
+        <field name="arch" type="xml">
+            <tree string="Library">
+                <field name="name"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="res_library_action_view" model="ir.actions.act_window">
+        <field name="name">Library</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.library</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Create your first library
+            </p>
+        </field>
+    </record>
+
+    <record model="ir.actions.server" id="do_some_stuff">
+            <field name="name">Do Some stuff</field>
+            <field name="binding_model_id" ref="model_res_library"/>
+            <field name="model_id" ref="model_res_library"/>
+            <field name="state">code</field>
+            <field name="binding_view_types">form</field>
+            <field name="code">
+for record in records:
+    record.do_some_stuff()
+            </field>
+        </record>
+
+</odoo>

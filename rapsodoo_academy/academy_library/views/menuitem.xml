@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menuitem_root_res_library" name="Library"
+              web_icon="academy_library,static/description/icon.png"/>
+
+    <menuitem id="menuitem_res_library" name="Library"
+              parent="menuitem_root_res_library"
+              sequence="0"
+              action="res_library_action_view"/>
+
+    <menuitem id="menuitem_res_book" name="Book"
+              parent="menuitem_root_res_library"
+              sequence="1"
+              action="res_book_action_view"/>
+
+    <menuitem id="menuitem_res_book_category" name="Book Category"
+              parent="menuitem_root_res_library"
+              sequence="2"
+              action="res_book_category_action_view"/>
+
+    <menuitem id="menuitem_res_partner_author" name="Author"
+              parent="menuitem_root_res_library"
+              sequence="3"
+              action="res_partner_author_action_view"/>
+
+    <menuitem id="menuitem_res_publisher" name="Publisher"
+              parent="menuitem_root_res_library"
+              sequence="4"
+              action="res_publisher_action_view"/>
+
+</odoo>

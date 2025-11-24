@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Website pages -->
+
+    <record id="libraries_page" model="website.page">
+        <field name="name">Libraries Page</field>
+        <field name="website_published">True</field>
+        <field name="url">/libraries</field>
+        <field name="view_id" ref="public_libraries"/>
+    </record>
+
+    <record id="books_page" model="website.page">
+        <field name="name">Books Page</field>
+        <field name="website_published">True</field>
+        <field name="url">/libraries/books</field>
+        <field name="view_id" ref="public_books"/>
+    </record>
+
+    <!-- Website menu -->
+
+    <record id="libraries_page_menu" model="website.menu">
+        <field name="name">Libraries</field>
+        <field name="page_id" ref="libraries_page"/>
+        <field name="parent_id" ref="website.main_menu" />
+        <field name="sequence" type="int">99</field>
+    </record>
+
+    <record id="books_page_menu" model="website.menu">
+        <field name="name">Books</field>
+        <field name="page_id" ref="books_page"/>
+        <field name="parent_id" ref="website.main_menu" />
+        <field name="sequence" type="int">99</field>
+    </record>
+</odoo>

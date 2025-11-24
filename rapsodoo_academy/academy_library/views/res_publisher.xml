@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_publisher_form_view" model="ir.ui.view">
+        <field name="name">res.publisher.form.view</field>
+        <field name="model">res.publisher</field>
+        <field name="arch" type="xml">
+            <form string="Publisher">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="type" widget="radio"/>
+                            <field name="percentage" attrs="{'readonly': [('type', '=', 'type1')]}"/>
+                            <field name="advertising"/>
+                            <label for="percentage_advertising" attrs="{'invisible': [('advertising', '=', False)]}" />
+                            <div class="o_row" attrs="{'invisible': [('advertising', '=', False)]}" >
+                                <field name="percentage_advertising" class="oe_inline"/>
+                                <span class="o_form_label oe_inline">%</span>
+                            </div>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="res_publisher_tree_view" model="ir.ui.view">
+        <field name="name">res.publisher.tree.view</field>
+        <field name="model">res.publisher</field>
+        <field name="arch" type="xml">
+            <tree string="Publisher">
+                <field name="name"/>
+                <field name="percentage"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="res_publisher_action_view" model="ir.actions.act_window">
+        <field name="name">Publisher</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.publisher</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Create your first publisher
+            </p>
+        </field>
+    </record>
+
+</odoo>

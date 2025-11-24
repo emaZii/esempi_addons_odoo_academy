@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_book_form_view" model="ir.ui.view">
+        <field name="name">res.book.form.view</field>
+        <field name="model">res.book</field>
+        <field name="arch" type="xml">
+            <form string="Book">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                    <field name="active" invisible="1"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <widget name="web_ribbon" title="Active" bg_color="bg-info" attrs="{'invisible': [('active', '=', False)]}"/>
+                    <group>
+                        <group>
+                            <field name="title"/>
+                            <field name="author_id"/>
+                            <field name="category_id"/>
+                            <field name="publisher_id"/>
+                            <field name="shelf_id"/>
+                        </group>
+                        <group>
+                            <field name="num_of_pages"/>
+                            <field name="copies_sold"/>
+                            <field name="last_buy_date"/>
+                            <field name="cover" widget="image"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Chapter">
+                            <field name="chapter_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Pricing">
+                            <group string="Pricing">
+                                <field name="price_for_public"/>
+                                <field name="cost_of_book"/>
+                                <field name="price_with_advertising"/>
+                            </group>
+                        </page>
+                        <page string="Description">
+                            <group>
+                                <field name="add_description_from_category"/>
+                                <field name="description"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="res_book_tree_view" model="ir.ui.view">
+        <field name="name">res.book.tree.view</field>
+        <field name="model">res.book</field>
+        <field name="arch" type="xml">
+            <tree string="Book">
+                <field name="title"/>
+                <field name="num_of_pages"/>
+                <field name="author_id" context="{'default_is_author': True}"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="res_book_action_view" model="ir.actions.act_window">
+        <field name="name">Book</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.book</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Create your first book
+            </p>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Breadcrumbs Data -->
+    <template id="portal_my_home_menu_book" name="Portal layout: book menu entry" inherit_id="portal.portal_breadcrumbs" priority="40">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'book' or book" t-attf-class="breadcrumb-item #{'active ' if not book else ''}">
+                <a t-if="book" t-attf-href="/my/books?{{ keep_query() }}">Books</a>
+                <t t-else="">Books</t>
+            </li>
+            <li t-if="book" class="breadcrumb-item active">
+                <span t-field="book.title"/>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home" name="Show Books" customize_show="True" inherit_id="portal.portal_my_home" priority="40">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Books</t>
+                <t t-set="url" t-value="'/my/books'"/>
+                <t t-set="placeholder_count" t-value="'book_count'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_books" name="My Vehicles">
+         <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Books</t>
+            </t>
+            <t t-if="not books">
+                <div class="alert alert-warning mt8" role="alert">
+                    There are no books.
+                </div>
+            </t>
+            <t t-if="books" t-call="portal.portal_table">
+                <tbody>
+                    <tr t-foreach="books" t-as="book">
+                        <td>
+                            <a t-attf-href="/my/book/{{ book.id }}?{{ keep_query() }}">
+                                <span t-field="book.title"/>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </t>
+        </t>
+    </template>
+
+    <template id="portal_my_book_body">
+        <t t-call="portal.portal_record_layout">
+            <t t-set="card_header">
+                <h1>
+                    <span t-field="book.title"/>
+                </h1>
+            </t>
+            <t t-set="card_body">
+                <div class="body-content">
+                    <span class="body-text"> Hi im the Body</span>
+                    <!-- Here show some content from the caller template -->
+                    <t t-out="0"/>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="portal_my_book" name="My Book">
+        <t t-call="portal.portal_layout">
+            <h2 class="my-4"> Main Detail template</h2>
+            <t t-set="test_var" t-value="'Test var string'"/>
+            <t t-call="portal_academy_library.portal_my_book_body">
+                <!-- This will be printed inside the t-out="0" -->
+                <p t-out="test_var"/>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="academy_library_res_book_category_form" model="ir.ui.view">
+        <field name="name">module.orm.res.book.category.form</field>
+        <field name="model">res.book.category</field>
+        <field name="arch" type="xml">
+            <form string="Book Category">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="description"/>
+                        </group>
+                    </group>
+                    <field name="book_ids"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="academy_library_res_book_category_tree" model="ir.ui.view">
+        <field name="name">module.orm.res.book.category.tree</field>
+        <field name="model">res.book.category</field>
+        <field name="arch" type="xml">
+            <tree string="Book Category">
+                <field name="name"/>
+                <field name="book_ids" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="res_book_category_action_view" model="ir.actions.act_window">
+        <field name="name">Book Category</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.book.category</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Create your first book
+            </p>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Library list -->
+    <template id="public_libraries" name="Libraries">
+        <t t-call="website.layout">
+            <div class="container mt-2 py-4 libraries-container">
+                <div class="row">
+                    <h1>Libraries</h1>
+
+                    <!-- Some simple filters -->
+                    <div class="col-12 libraries-filters mt-4 mb-4">
+                        <form action="/libraries">
+                            <input type="text" name="library_name" placeholder="Search Library" t-att-value="library_name"/>
+                            <input type="text" name="code" placeholder="Search by code" t-att-value="code"/>
+                            <input type="submit" value="Search"/>
+                        </form>
+                    </div>
+
+                    <!-- Libraries available -->
+                    <div class="col-12 libraries-content">
+                        <div class="row">
+                            <div t-if="not libraries" class="alert alert-danger" role="alert">
+                                No libraries found!
+                            </div>
+
+                            <t t-foreach="libraries" t-as="library">
+                                <div class="col-sm-12 col-md-4 library-box" t-att-data-library_id="library.id">
+                                    <div class="library-box-content">
+                                        <div class="library-box-info">
+                                            <h3 class="library-box-title">
+                                                <a t-attf-href="/libraries/#{ slug(library) }" t-out="library.name"/>
+                                            </h3>
+                                            <div class="library-box-description" t-out="library.code"/>
+                                            <div class="library-box-description">
+                                                <t t-out="library.code"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Library detail -->
+    <template id="public_library_detail" name="Library Detail">
+        <t t-call="website.layout">
+            <div class="container mt-2 py-4 library-detail-container">
+                <a t-att-href="back_url" class="btn btn-primary">Back</a>
+                <!-- t-field need an HTML node, don't use t as root node -->
+                <h1 t-field="library.name"/>
+                <div class="row mt-4 books-container">
+                    <!-- Load library books -->
+                    <t t-foreach="books" t-as="book">
+                        <div class="col-sm-12 col-md-4 book-box card" t-att-data-book_id="book.id">
+                            <div class="book-box-content">
+                                <div class="book-box-info">
+                                    <h3 class="book-box-title">
+                                        <a t-attf-href="/libraries/#{ slug(library) }/books/#{ slug(book) }" t-out="book.title"/>
+                                    </h3>
+                                    <div class="book-box-description">
+                                        <label>Author:</label>
+                                        <p t-field="book.author_id"/>
+                                        <label>Copies Sold:</label>
+                                        <p t-field="book.copies_sold"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Extend the library details and show the shelves number (See website_library_extended.py) -->
+    <template id="public_library_detail_extended" inherit_id="website_academy_library.public_library_detail">
+        <xpath expr="//h1[@t-field='library.name']" position="after">
+            <label>Shelves Number:</label>
+            <p t-out="shelves_number"/>
+        </xpath>
+    </template>
+
+    <!-- Book list -->
+    <template id="public_books" name="Books">
+        <t t-call="website.layout">
+            <div class="container mt-2 py-4 books-container">
+                <div class="row">
+                    <h1>Books</h1>
+                    <!-- Some simple filters -->
+                    <div class="col-12 libraries-filters mt-4 mb-4">
+                        <form action="/libraries/books">
+                            <input type="text" name="library_name" placeholder="Search by Library" t-att-value="library_name"/>
+                            <input type="text" name="book_title" placeholder="Search by Title" t-att-value="book_title"/>
+                            <input type="submit" value="Search"/>
+                        </form>
+                    </div>
+
+                    <!-- Books available -->
+                    <div class="col-12 libraries-content">
+                        <div class="row">
+
+                            <div t-if="not books" class="alert alert-danger" role="alert">
+                                No books found!
+                            </div>
+
+                            <t t-foreach="books" t-as="book">
+                                <div class="col-sm-12 col-md-4 book-box" t-att-data-book_id="book.id">
+                                    <div class="book-box-content">
+                                        <div class="book-box-info">
+                                            <h3 class="book-box-title">
+                                                <a t-attf-href="/libraries/books/#{ slug(book) }" t-out="book.title"/>
+                                            </h3>
+                                            <div class="library-box-description" t-out="book.sudo().author_id.name"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Book detail -->
+    <template id="public_book_detail" name="Book Detail">
+        <t t-call="website.layout">
+            <div class="container mt-2 py-4 book-detail-container">
+                <a href="/libraries" class="btn btn-primary">All Libraries</a>
+                <a href="/libraries/books" class="btn btn-primary">All Books</a>
+                <!-- t-field need an HTML node, don't use t as root node -->
+                <h1 t-field="book.title"/>
+                <div class="book-info">
+                    <b>Author:</b>
+                    <p t-out="book_author.name"/>
+                    <b>Copies Sold:</b>
+                    <p t-field="book.copies_sold"/>
+                </div>
+
+                <button class="btn btn-primary js_show_more_book" t-att-data-book_id="book.id">Show more</button>
+                <div class="show-more-info-book mt-4">
+                    <!-- Loaded by Javascript -->
+                </div>
+            </div>
+            <button class="btn btn-primary js_show_more_book" t-att-data-book_id="book.id">Show more</button>
+        </t>
+    </template>
+
+    <!-- Template loaded by Javascript with Show More action -->
+    <template id="public_book_detail_more_info">
+        <div class="row">
+            <div class="col-12">
+                <h2>More info</h2>
+                <div class="row">
+                    <div class="col-12">
+                        <label>Library Name:</label>
+                        <p t-out="book.shelf_id.library_id.name"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+</odoo>
